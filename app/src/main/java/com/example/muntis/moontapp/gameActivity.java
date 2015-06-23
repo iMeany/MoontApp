@@ -5,6 +5,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -53,5 +56,12 @@ public class gameActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    public void onClick(View v) {
+        Button b = (Button) v;
+        TextView dbgTxt = (TextView) findViewById(R.id.debugTxt);
+        dbgTxt.setText("Button pressed: " + b.getText().toString());
     }
 }

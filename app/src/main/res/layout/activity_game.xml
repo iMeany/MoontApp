@@ -22,6 +22,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="a1"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/a2"
@@ -29,6 +30,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="a2"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/a3"
@@ -36,6 +38,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="a3"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/a4"
@@ -43,6 +46,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="a4"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/a5"
@@ -50,6 +54,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="a5"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/a6"
@@ -57,6 +62,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="a6"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/a7"
@@ -64,6 +70,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="a7"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/a8"
@@ -71,10 +78,9 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="a8"
+            android:onClick="onClick"
             />
-
     </LinearLayout>
-
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -85,6 +91,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="b1"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/b2"
@@ -92,6 +99,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="b2"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/b3"
@@ -99,6 +107,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="b3"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/b4"
@@ -106,6 +115,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="b4"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/b5"
@@ -113,6 +123,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="b5"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/b6"
@@ -120,6 +131,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="b6"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/b7"
@@ -127,6 +139,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="b7"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/b8"
@@ -134,9 +147,9 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="b8"
+            android:onClick="onClick"
             />
     </LinearLayout>
-
 
     <LinearLayout
         android:orientation="horizontal"
@@ -148,6 +161,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="c1"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/c2"
@@ -155,6 +169,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="c2"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/c3"
@@ -162,6 +177,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="c3"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/c4"
@@ -169,6 +185,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="c4"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/c5"
@@ -176,6 +193,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="c5"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/c6"
@@ -183,6 +201,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="c6"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/c7"
@@ -190,6 +209,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="c7"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/c8"
@@ -197,10 +217,9 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="c8"
+            android:onClick="onClick"
             />
     </LinearLayout>
-
-
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -211,6 +230,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="d1"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/d2"
@@ -218,6 +238,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="d2"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/d3"
@@ -225,6 +246,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="d3"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/d4"
@@ -232,6 +254,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="d4"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/d5"
@@ -239,6 +262,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="d5"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/d6"
@@ -246,6 +270,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="d6"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/d7"
@@ -253,6 +278,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="d7"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/d8"
@@ -260,9 +286,9 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="d8"
+            android:onClick="onClick"
             />
     </LinearLayout>
-
 
     <LinearLayout
         android:orientation="horizontal"
@@ -274,6 +300,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="e1"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/e2"
@@ -281,6 +308,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="e2"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/e3"
@@ -288,6 +316,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="e3"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/e4"
@@ -295,6 +324,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="e4"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/e5"
@@ -302,6 +332,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="e5"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/e6"
@@ -309,6 +340,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="e6"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/e7"
@@ -316,6 +348,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="e7"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/e8"
@@ -323,9 +356,9 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="e8"
+            android:onClick="onClick"
             />
     </LinearLayout>
-
 
     <LinearLayout
         android:orientation="horizontal"
@@ -337,6 +370,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="f1"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/f2"
@@ -344,6 +378,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="f2"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/f3"
@@ -351,6 +386,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="f3"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/f4"
@@ -358,6 +394,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="f4"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/f5"
@@ -365,6 +402,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="f5"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/f6"
@@ -372,6 +410,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="f6"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/f7"
@@ -379,6 +418,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="f7"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/f8"
@@ -386,9 +426,9 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="f8"
+            android:onClick="onClick"
             />
     </LinearLayout>
-
 
     <LinearLayout
         android:orientation="horizontal"
@@ -400,6 +440,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="g1"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/g2"
@@ -407,6 +448,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="g2"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/g3"
@@ -414,6 +456,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="g3"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/g4"
@@ -421,6 +464,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="g4"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/g5"
@@ -428,6 +472,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="g5"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/g6"
@@ -435,6 +480,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="g6"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/g7"
@@ -442,6 +488,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="g7"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/g8"
@@ -449,9 +496,9 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="g8"
+            android:onClick="onClick"
             />
     </LinearLayout>
-
 
     <LinearLayout
         android:orientation="horizontal"
@@ -463,6 +510,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="h1"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/h2"
@@ -470,6 +518,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="h2"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/h3"
@@ -477,6 +526,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="h3"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/h4"
@@ -484,6 +534,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="h4"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/h5"
@@ -491,6 +542,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="h5"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/h6"
@@ -498,6 +550,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="h6"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/h7"
@@ -505,6 +558,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="h7"
+            android:onClick="onClick"
             />
         <Button
             android:id="@+id/h8"
@@ -512,9 +566,15 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="h8"
+            android:onClick="onClick"
             />
     </LinearLayout>
 
+    <EditText
+        android:id="@+id/debugTxt"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:textSize="6sp"/>
 
 
 </LinearLayout>

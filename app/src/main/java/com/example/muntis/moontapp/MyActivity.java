@@ -1,74 +1,121 @@
 package com.example.muntis.moontapp;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.content.Intent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
-import java.util.HashMap;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 
-public class MyActivity extends ActionBarActivity {
+public class MyActivity extends Activity {
 
+    TextView textResponse;
+    EditText editTextAddress, editTextPort;
+    Button buttonConnect, buttonClear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
+
+        editTextAddress = (EditText)findViewById(R.id.address);
+        editTextPort = (EditText)findViewById(R.id.port);
+        buttonConnect = (Button)findViewById(R.id.connect);
+        buttonClear = (Button)findViewById(R.id.clear);
+        textResponse = (TextView)findViewById(R.id.response);
+
+        buttonConnect.setOnClickListener(buttonConnectOnClickListener);
+
+        buttonClear.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                textResponse.setText("");
+            }
+        });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.menu_my, menu);
+    View.OnClickListener buttonConnectOnClickListener =
+            new View.OnClickListener(){
 
-        MenuInflater myinflater = getMenuInflater();
-        myinflater.inflate(R.menu.main_activity_actions, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
+                @Override
+                public void onClick(View arg0) {
+                    MyClientTask myClientTask = new MyClientTask(
+                            editTextAddress.getText().toString(),
+                            Integer.parseInt(editTextPort.getText().toString()));
+                    myClientTask.execute();
+                }};
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // @todo izmantot shiis pogas
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+    public class MyClientTask extends AsyncTask<Void, Void, Void> {
 
-        // Handle presses on the action bar items
-        switch (item.getItemId()) {
-            case R.id.action_search:
-                //openSearch();
-                return true;
-            case R.id.action_settings:
-                //openSettings();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        String dstAddress;
+        int dstPort;
+        String response = "";
+
+        MyClientTask(String addr, int port){
+            dstAddress = addr;
+            dstPort = port;
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+
+            Socket socket = null;
+
+            try {
+                socket = new Socket(dstAddress, dstPort);
+
+                ByteArrayOutputStream byteArrayOutputStream =
+                        new ByteArrayOutputStream(1024);
+                byte[] buffer = new byte[1024];
+
+                int bytesRead;
+                InputStream inputStream = socket.getInputStream();
+
+    /*
+     * notice:
+     * inputStream.read() will block if no data return
+     */
+                while ((bytesRead = inputStream.read(buffer)) != -1){
+                    byteArrayOutputStream.write(buffer, 0, bytesRead);
+                    response += byteArrayOutputStream.toString("UTF-8");
+                }
+
+            } catch (UnknownHostException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                response = "UnknownHostException: " + e.toString();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                response = "IOException: " + e.toString();
+            }finally{
+                if(socket != null){
+                    try {
+                        socket.close();
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            textResponse.setText(response);
+            super.onPostExecute(result);
         }
 
     }
 
-    //@todo muntis
-
-    public void connectToServer(View view) {
-        // when pressing connect on main screen
-        Intent intent = new Intent(this, gameActivity.class);
-
-        // grabbing data from fields into hashmap
-        intent.putExtra("nick", ((EditText) findViewById(R.id.nick)).getText().toString());
-        intent.putExtra("serverIP", ((EditText) findViewById(R.id.server_ip)).getText().toString());
-
-        //starting next activity
-        startActivity(intent);
-
-    }
-
 }
-
-
-
-
