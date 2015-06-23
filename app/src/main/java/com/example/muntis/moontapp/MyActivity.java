@@ -81,7 +81,7 @@ public class MyActivity extends Activity {
                 InputStream inputStream = socket.getInputStream();
 
     /*
-     * notice:
+     * notice: 
      * inputStream.read() will block if no data return
      */
                 while ((bytesRead = inputStream.read(buffer)) != -1){
