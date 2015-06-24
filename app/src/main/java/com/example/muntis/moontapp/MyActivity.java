@@ -1,24 +1,31 @@
 package com.example.muntis.moontapp;
 
-import android.app.Activity;
+import com.example.muntis.moontapp.MyConnections;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+import android.app.Notification;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.app.Activity;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.Socket;
-import java.net.UnknownHostException;
-
-
 public class MyActivity extends Activity {
 
     TextView textResponse;
-    EditText editTextAddress, editTextPort;
+    EditText editTextAddress, editTextPort, editTextNick;
     Button buttonConnect, buttonClear;
 
     @Override
@@ -26,15 +33,16 @@ public class MyActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
 
-        editTextAddress = (EditText)findViewById(R.id.address);
-        editTextPort = (EditText)findViewById(R.id.port);
-        buttonConnect = (Button)findViewById(R.id.connect);
-        buttonClear = (Button)findViewById(R.id.clear);
-        textResponse = (TextView)findViewById(R.id.response);
+        editTextAddress = (EditText) findViewById(R.id.address);
+        editTextPort = (EditText) findViewById(R.id.port);
+        editTextNick = (EditText) findViewById(R.id.nick);
+        buttonConnect = (Button) findViewById(R.id.connect);
+        buttonClear = (Button) findViewById(R.id.clear);
+        textResponse = (TextView) findViewById(R.id.response);
 
         buttonConnect.setOnClickListener(buttonConnectOnClickListener);
 
-        buttonClear.setOnClickListener(new View.OnClickListener() {
+        buttonClear.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -43,16 +51,15 @@ public class MyActivity extends Activity {
         });
     }
 
-    View.OnClickListener buttonConnectOnClickListener =
-            new View.OnClickListener(){
+    OnClickListener buttonConnectOnClickListener =
+            new OnClickListener() {
 
                 @Override
                 public void onClick(View arg0) {
-                    MyClientTask myClientTask = new MyClientTask(
-                            editTextAddress.getText().toString(),
-                            Integer.parseInt(editTextPort.getText().toString()));
+                    MyClientTask myClientTask = new MyClientTask(editTextAddress.getText().toString(), Integer.parseInt(editTextPort.getText().toString()));
                     myClientTask.execute();
-                }};
+                }
+            };
 
     public class MyClientTask extends AsyncTask<Void, Void, Void> {
 
@@ -60,7 +67,7 @@ public class MyActivity extends Activity {
         int dstPort;
         String response = "";
 
-        MyClientTask(String addr, int port){
+        MyClientTask(String addr, int port) {
             dstAddress = addr;
             dstPort = port;
         }
@@ -71,22 +78,36 @@ public class MyActivity extends Activity {
             Socket socket = null;
 
             try {
+                //creating socket and streams for server
                 socket = new Socket(dstAddress, dstPort);
+                MyConnections conn = new MyConnections();
+                conn.setInput(new BufferedReader(new InputStreamReader(socket.getInputStream())));
+                conn.setOutput(new PrintWriter(socket.getOutputStream(), true));
 
-                ByteArrayOutputStream byteArrayOutputStream =
-                        new ByteArrayOutputStream(1024);
-                byte[] buffer = new byte[1024];
+                BufferedReader inStream = conn.getInput();
+                PrintWriter outStream = conn.getOutput();
+                while(true) {
+                    String line = inStream.readLine();
+                    if (line.startsWith("SUBMITNAME")) {
+                        // if server wants nick -> grab it and send
+                        editTextNick = (EditText) findViewById(R.id.nick);
+                        outStream.println(editTextNick.getText().toString());
 
-                int bytesRead;
-                InputStream inputStream = socket.getInputStream();
+                    } else if (line.startsWith("NAMEACCEPTED")) {
+                        // if server accepted nick -> join the game
+                        // @todo check if there are 2 players and make game for them
+                        editTextNick = (EditText) findViewById(R.id.nick);
+                        Intent gameIntent = new Intent(MyActivity.this, gameActivity.class);
+                        gameIntent.putExtra("nick", editTextNick.getText().toString());
+                        startActivity(gameIntent);
 
-    /*
-     * notice: 
-     * inputStream.read() will block if no data return
-     */
-                while ((bytesRead = inputStream.read(buffer)) != -1){
-                    byteArrayOutputStream.write(buffer, 0, bytesRead);
-                    response += byteArrayOutputStream.toString("UTF-8");
+
+                    } else if (line.startsWith("xxMESSAGE")) {
+                        // @todo game messages later here
+                        //messageArea.append(line.substring(8) + "\n");
+                    } else {
+                        // @todo game moves here
+                    }
                 }
 
             } catch (UnknownHostException e) {
@@ -97,8 +118,9 @@ public class MyActivity extends Activity {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
                 response = "IOException: " + e.toString();
-            }finally{
-                if(socket != null){
+            } finally {
+                textResponse.setText(response);
+                if (socket != null) {
                     try {
                         socket.close();
                     } catch (IOException e) {
@@ -117,5 +139,6 @@ public class MyActivity extends Activity {
         }
 
     }
+
 
 }
