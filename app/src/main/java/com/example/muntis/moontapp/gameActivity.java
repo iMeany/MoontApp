@@ -99,7 +99,7 @@ public class gameActivity extends ActionBarActivity  {
                 while(true) {
 
                     //TextView aa = (TextView) myActivity.findViewById(R.id.debugTxt);
-                    //aa.setText("...from doInBackground..."+a);
+                    //aa.setText("...from doInBackground..."+a);//
                     outStrm.println("ASYNC!!!! MOVE " + a);
                     a++;
                     //outStrm.println("MESSAGE ?????????????????????????????????");
