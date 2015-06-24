@@ -43,8 +43,8 @@ public class gameActivity extends ActionBarActivity  {
 
         Integer t = 1;
         GameClientTask gameTask = new GameClientTask(MyConnections.outStream, MyConnections.inStream, this);
-        gameTask.execute(t);
-
+        //gameTask.execute(t);
+        gameTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         TextView topTxt = (TextView) findViewById(R.id.topText);
         // @todo get other nick
         topTxt.setText(nickTxt + " vs " + "other_nick_here");
@@ -91,12 +91,23 @@ public class gameActivity extends ActionBarActivity  {
             myActivity = ga;
         }
 
+
         @Override
         protected Integer doInBackground(Integer... params) {
-            TextView aa = (TextView) myActivity.findViewById(R.id.debugTxt);
-            aa.setText("...from doInBackground...");
-            outStrm.println("MESSAGE ?????????????????????????????????");
-            return 1;
+            try {
+                int a=0;
+                while(true) {
+
+                    //TextView aa = (TextView) myActivity.findViewById(R.id.debugTxt);
+                    //aa.setText("...from doInBackground..."+a);
+                    outStrm.println("ASYNC!!!! MOVE " + a);
+                    a++;
+                    //outStrm.println("MESSAGE ?????????????????????????????????");
+                }
+            } finally {
+                return 1;
+            }
+
         }
 
         @Override

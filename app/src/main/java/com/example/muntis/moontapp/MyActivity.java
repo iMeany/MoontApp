@@ -102,7 +102,7 @@ public class MyActivity extends Activity {
                         startActivity(gameIntent);
 
 
-                    } else if (line.startsWith("xxMESSAGE")) {
+                    } else if (line.startsWith("MESSAGE")) {
                         // @todo game messages later here
                         //messageArea.append(line.substring(8) + "\n");
                     } else {
