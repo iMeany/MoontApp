@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 /**
  * Created by Muntis on 2015.06.24..
  */
+
 public class MyConnections {
     public static BufferedReader inStream;
     public static PrintWriter outStream;

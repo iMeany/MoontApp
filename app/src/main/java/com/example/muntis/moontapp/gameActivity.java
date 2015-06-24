@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ActionMenuView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +23,7 @@ import org.w3c.dom.Text;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URL;
 import java.net.UnknownHostException;
 
 
@@ -39,13 +41,13 @@ public class gameActivity extends ActionBarActivity  {
             nickTxt = "Anonymous";
         }
 
+        Integer t = 1;
+        GameClientTask gameTask = new GameClientTask(MyConnections.outStream, MyConnections.inStream, this);
+        gameTask.execute(t);
+
         TextView topTxt = (TextView) findViewById(R.id.topText);
         // @todo get other nick
         topTxt.setText(nickTxt + " vs " + "other_nick_here");
-
-        GameClientTask gameTask = new GameClientTask();
-        gameTask.execute();
-
 
     }
 
@@ -69,38 +71,42 @@ public class gameActivity extends ActionBarActivity  {
     public void onClick(View v) {
 
         Button b = (Button) v;
-        TextView dbgTxt = (TextView) findViewById(R.id.debugTxt);
-        dbgTxt.setText("Button pressed: " + b.getText().toString());
+        //TextView dbgTxt = (TextView) findViewById(R.id.debugTxt);
+        //dbgTxt.setText("Button pressed: " + b.getText().toString());
 
         Intent intent = getIntent();
         MyConnections.outStream.println("MOVE FROM " + intent.getStringExtra("nick") + " ANDROID: " + b.getText().toString());
+
     }
 
-    public class GameClientTask extends AsyncTask<Void, Void, Void> {
+    public class GameClientTask extends AsyncTask<Integer, Integer, Integer> {
 
-        //int a = 1/0;
-        public PrintWriter outStream;
-        GameClientTask() {
+        public PrintWriter outStrm;
+        public BufferedReader inStrm;
+        public gameActivity myActivity;
+
+        GameClientTask(PrintWriter out, BufferedReader in, gameActivity ga) {
+            outStrm = new PrintWriter(out);
+            inStrm = new BufferedReader(in);
+            myActivity = ga;
+        }
+
+        @Override
+        protected Integer doInBackground(Integer... params) {
+            TextView aa = (TextView) myActivity.findViewById(R.id.debugTxt);
+            aa.setText("...from doInBackground...");
+            outStrm.println("MESSAGE ?????????????????????????????????");
+            return 1;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            // @todo when the game ends?
+            //textResponse.setText(result);
+            //super.onPostExecute(result);
             return;
         }
 
-        @Override
-        protected Void doInBackground(Void... arg0) {
-
-            try {
-                outStream.println("????????????????????????????????????");
-            } finally {
-                return null;
-            }
-
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            // @todo when the game ends?
-            //textResponse.setText(response);
-            super.onPostExecute(result);
-        }
 
     }
 }
