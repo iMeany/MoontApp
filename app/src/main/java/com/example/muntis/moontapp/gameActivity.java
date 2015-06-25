@@ -6,8 +6,10 @@ import com.example.muntis.moontapp.MyConnections;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,11 +22,15 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.Random;
 
 
 public class gameActivity extends ActionBarActivity  {
@@ -37,14 +43,18 @@ public class gameActivity extends ActionBarActivity  {
         // getting data from passed intent
         Intent intent = getIntent();
         String nickTxt = intent.getStringExtra("nick");
-        if (nickTxt.equals("")) {
-            nickTxt = "Anonymous";
-        }
 
-        Integer t = 1;
-        GameClientTask gameTask = new GameClientTask(MyConnections.outStream, MyConnections.inStream, this);
-        //gameTask.execute(t);
-        gameTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        GameClientTask gameTask = new GameClientTask(MyConnections.inStream, MyConnections.outStream, this, nickTxt);
+
+        // @todo set api level
+        //if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.HONEYCOMB) {
+            gameTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        //}
+        //else {
+        //    gameTask.execute();
+        //}
+
+
         TextView topTxt = (TextView) findViewById(R.id.topText);
         // @todo get other nick
         topTxt.setText(nickTxt + " vs " + "other_nick_here");
@@ -75,40 +85,63 @@ public class gameActivity extends ActionBarActivity  {
         //dbgTxt.setText("Button pressed: " + b.getText().toString());
 
         Intent intent = getIntent();
-        MyConnections.outStream.println("MOVE FROM " + intent.getStringExtra("nick") + " ANDROID: " + b.getText().toString());
+        MyConnections.outStream.println("MOVE|" + intent.getStringExtra("nick") + "|" + b.getText().toString());
+
 
     }
 
-    public class GameClientTask extends AsyncTask<Integer, Integer, Integer> {
+    public class GameClientTask extends AsyncTask<Integer, String, Integer> {
+
+        GameClientTask(BufferedReader in, PrintWriter out, gameActivity ga, String n) {
+            outStrm = out;
+            inStrm = in;
+            myActivity = ga;
+            playerNick = n;
+        }
 
         public PrintWriter outStrm;
         public BufferedReader inStrm;
+
         public gameActivity myActivity;
-
-        GameClientTask(PrintWriter out, BufferedReader in, gameActivity ga) {
-            outStrm = new PrintWriter(out);
-            inStrm = new BufferedReader(in);
-            myActivity = ga;
-        }
-
+        public String playerNick;
 
         @Override
         protected Integer doInBackground(Integer... params) {
-            try {
-                int a=0;
-                while(true) {
 
-                    //TextView aa = (TextView) myActivity.findViewById(R.id.debugTxt);
-                    //aa.setText("...from doInBackground..."+a);//
-                    outStrm.println("ASYNC!!!! MOVE " + a);
-                    a++;
-                    //outStrm.println("MESSAGE ?????????????????????????????????");
+            BufferedReader serverData = null;
+            Boolean boardGet = false;
+
+            try {
+                inStrm = new BufferedReader(new InputStreamReader(MyConnections.socket.getInputStream()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                Boolean connected = true;
+                while(connected) {
+                    String line;
+                    line = MyConnections.inStream.readLine();
+                    MyConnections.outStream.print("Received " + line);
+
                 }
             } finally {
                 return 1;
             }
 
         }
+
+        @Override
+        protected void onProgressUpdate(String... progress) {
+            //setContentView(R.layout.activity_game);
+            //MoontGame curGame = new MoontGame(myActivity);
+
+            //TextView a = (TextView) myActivity.findViewById(R.id.a2);
+            //a.setText("111");
+
+            //curGame.setA1(777);
+        }
+
 
         @Override
         protected void onPostExecute(Integer result) {

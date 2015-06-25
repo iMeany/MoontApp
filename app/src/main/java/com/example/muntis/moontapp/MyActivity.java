@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Random;
 
 import android.app.Notification;
 import android.content.Intent;
@@ -27,11 +28,13 @@ public class MyActivity extends Activity {
     TextView textResponse;
     EditText editTextAddress, editTextPort, editTextNick;
     Button buttonConnect, buttonClear;
+    Activity curActiv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
+        curActiv = this;
 
         editTextAddress = (EditText) findViewById(R.id.address);
         editTextPort = (EditText) findViewById(R.id.port);
@@ -56,56 +59,72 @@ public class MyActivity extends Activity {
 
                 @Override
                 public void onClick(View arg0) {
-                    MyClientTask myClientTask = new MyClientTask(editTextAddress.getText().toString(), Integer.parseInt(editTextPort.getText().toString()));
+                    MyClientTask myClientTask = new MyClientTask(editTextAddress.getText().toString(), Integer.parseInt(editTextPort.getText().toString()), curActiv);
                     myClientTask.execute();
                 }
             };
 
-    public class MyClientTask extends AsyncTask<Void, Void, Void> {
+    public class MyClientTask extends AsyncTask<Void, Intent, Void> {
 
         String dstAddress;
         int dstPort;
         String response = "";
+        Activity curActiv;
 
-        MyClientTask(String addr, int port) {
+        MyClientTask(String addr, int port, Activity a) {
             dstAddress = addr;
             dstPort = port;
+            curActiv = a;
         }
 
         @Override
         protected Void doInBackground(Void... arg0) {
 
-            Socket socket = null;
+            Socket mysocket = null;
 
             try {
                 //creating socket and streams for server
-                socket = new Socket(dstAddress, dstPort);
-                MyConnections conn = new MyConnections();
-                conn.setInput(new BufferedReader(new InputStreamReader(socket.getInputStream())));
-                conn.setOutput(new PrintWriter(socket.getOutputStream(), true));
+                mysocket = new Socket(dstAddress, dstPort);
 
-                BufferedReader inStream = conn.getInput();
-                PrintWriter outStream = conn.getOutput();
+                BufferedReader inStream = new BufferedReader(new InputStreamReader(mysocket.getInputStream()));
+                PrintWriter outStream = new PrintWriter(mysocket.getOutputStream(), true);;
+
+                MyConnections conn = new MyConnections();
+                conn.setInput(inStream);
+                conn.setOutput(outStream);
+                conn.setSocket(mysocket);
+
+                String nickAnon = "Anonymous";
                 while(true) {
                     String line = inStream.readLine();
+
                     if (line.startsWith("SUBMITNAME")) {
                         // if server wants nick -> grab it and send
-                        editTextNick = (EditText) findViewById(R.id.nick);
-                        outStream.println(editTextNick.getText().toString());
+                        nickAnon = ((EditText) curActiv.findViewById(R.id.nick)).getText().toString();
+                        if (nickAnon.equals("") || nickAnon.equals("Anonymous")) {
+                            Random r = new Random();
+                            nickAnon = "Anonymous"+r.nextInt(9999);
+                        }
+                        outStream.println(nickAnon);
 
                     } else if (line.startsWith("NAMEACCEPTED")) {
                         // if server accepted nick -> join the game
                         // @todo check if there are 2 players and make game for them
                         editTextNick = (EditText) findViewById(R.id.nick);
                         Intent gameIntent = new Intent(MyActivity.this, gameActivity.class);
-                        gameIntent.putExtra("nick", editTextNick.getText().toString());
-                        startActivity(gameIntent);
-
+                        gameIntent.putExtra("nick", nickAnon);
+                        publishProgress(gameIntent);
 
                     } else if (line.startsWith("MESSAGE")) {
                         // @todo game messages later here
                         //messageArea.append(line.substring(8) + "\n");
+
+                    } else if (line.startsWith("GAMESTARTED")) {
+                        MyConnections.outStream.println("pls work");
+
+
                     } else {
+
                         // @todo game moves here
                     }
                 }
@@ -120,9 +139,9 @@ public class MyActivity extends Activity {
                 response = "IOException: " + e.toString();
             } finally {
                 textResponse.setText(response);
-                if (socket != null) {
+                if (mysocket != null) {
                     try {
-                        socket.close();
+                        mysocket.close();
                     } catch (IOException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
@@ -130,6 +149,11 @@ public class MyActivity extends Activity {
                 }
             }
             return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Intent... progress) {
+            startActivity(progress[0]);
         }
 
         @Override

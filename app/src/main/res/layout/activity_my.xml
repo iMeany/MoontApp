@@ -35,7 +35,7 @@
         android:id="@+id/nick"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text = "Anonymous1"
+        android:text = "@string/default_nickname_text"
         />
 
     <Button

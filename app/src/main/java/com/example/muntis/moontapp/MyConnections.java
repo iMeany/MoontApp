@@ -1,7 +1,9 @@
 package com.example.muntis.moontapp;
 
 import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.Socket;
 
 /**
  * Created by Muntis on 2015.06.24..
@@ -10,6 +12,7 @@ import java.io.PrintWriter;
 public class MyConnections {
     public static BufferedReader inStream;
     public static PrintWriter outStream;
+    public static Socket socket;
 
     public BufferedReader getInput() {
         return inStream;
@@ -26,6 +29,8 @@ public class MyConnections {
     public void setOutput(PrintWriter BR) {
         outStream = BR;
     }
+
+    public void setSocket(Socket S) {socket = S;}
 
     public void sendOut(String msg) {
         outStream.println("MESSAGE FROM ANDROID: " + msg.toString());
